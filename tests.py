@@ -4,33 +4,34 @@ from main import BooksCollector
 
 class TestBooksCollector:
 
-    def test_add_new_book_add_two_books(self, bookscollector):
-        bookscollector.add_new_book('Гордость и предубеждение и зомби')
-        bookscollector.add_new_book('Что делать, если ваш кот хочет вас убить')
+    valid_books_names = ['А','Гордость и предубеждение и зомби','Что делать, если ваш кот хочет вас убить']
+    invalid_books_names = ['','Что делать, если ваш кот хочет вас убить!']
+    valid_genre = ['Фантастика', 'Ужасы', 'Детективы', 'Мультфильмы', 'Комедии']
 
-        assert len(bookscollector.get_books_genre()) == 2
+    @pytest.mark.parametrize('book', valid_books_names)
+    def test_add_new_book_name_length_is_1_32_40_symbols_book_added(self, bookscollector, book):
+        bookscollector.add_new_book(book)
 
-    def test_add_new_book_name_lenght_more_then_40_symbols_dont_added(self, bookscollector):
-        bookscollector.add_new_book('Что делать, если ваш кот хочет вас убить!')
+        assert len(bookscollector.get_books_genre()) == 1
+
+    @pytest.mark.parametrize('book', invalid_books_names)
+    def test_add_new_book_name_is_empty_string_or_more_then_40_symbols_dont_added(self, bookscollector, book):
+        bookscollector.add_new_book(book)
 
         assert len(bookscollector.get_books_genre()) == 0
 
-    def test_add_new_book_name_is_empty_string_dont_added(self, bookscollector):
-        bookscollector.add_new_book('')
-
-        assert len(bookscollector.get_books_genre()) == 0
-
-    def test_add_new_book_cant_add_the_same_book_again(self, bookscollector):
+    def test_add_new_book_dont_add_the_same_book_again(self, bookscollector):
         bookscollector.add_new_book('Гордость и предубеждение и зомби')
         bookscollector.add_new_book('Гордость и предубеждение и зомби')
 
         assert len(bookscollector.get_books_genre()) == 1
 
-    def test_set_book_genre_correct_book_and_genre_successfully_added(self, bookscollector):
-        bookscollector.add_new_book('Гордость')
-        bookscollector.set_book_genre('Гордость', 'Ужасы')
+    @pytest.mark.parametrize('genre', valid_genre)
+    def test_set_book_genre_correct_book_and_genre_successfully_added(self, bookscollector, genre):
+        bookscollector.add_new_book('Три мушкетера')
+        bookscollector.set_book_genre('Три мушкетера', genre)
 
-        assert bookscollector.books_genre['Гордость'] == 'Ужасы'
+        assert bookscollector.books_genre['Три мушкетера'] == genre
 
     def test_set_book_genre_incorrect_genre_dont_added(self, bookscollector):
         bookscollector.add_new_book('Гордость')
@@ -78,7 +79,6 @@ class TestBooksCollector:
         assert bookscollector.get_list_of_favorites_books() == ['Ночной дозор']
 
     def test_delete_book_from_favorites_successfully_deleted(self, bookscollector):
-        bookscollector.add_new_book('Гордость и предубеждение и зомби')
         bookscollector.add_new_book('Ночной дозор')
         bookscollector.add_book_in_favorites('Ночной дозор')
         bookscollector.delete_book_from_favorites('Ночной дозор')
