@@ -92,3 +92,11 @@ class TestBooksCollector:
         bookscollector.set_book_genre('Ночной дозор', 'Фантастика')
 
         assert bookscollector.get_books_genre() == {'Гордость':'Ужасы','Ночной дозор':'Фантастика'}
+
+    def test_get_list_of_favorites_books_successfully_return_list_of_favorites(self, bookscollector):
+        bookscollector.add_new_book('Гордость')
+        bookscollector.add_book_in_favorites('Гордость')
+        bookscollector.add_new_book('Ночной дозор')
+        bookscollector.add_book_in_favorites('Ночной дозор')
+
+        assert bookscollector.get_list_of_favorites_books() == ['Гордость','Ночной дозор']

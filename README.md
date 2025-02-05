@@ -11,3 +11,4 @@
 10. `test_add_book_in_favorites_a_new_book_from_books_genre_successfully_appended` - Проверка, что метод add_book_in_favorites добавляет книгу в список избранного  self.favorites по ее названию
 11. `test_delete_book_from_favorites_successfully_deleted` - Проверка, что метод delete_book_from_favorites удаляет книгу из списка self.favorites по ее названию
 12. `test_get_books_genre_return_dict_books_genre` - Проверка, что метод get_books_genre возвращает словарь с книгами и их жанрами
+13. `test_get_list_of_favorites_books_successfully_return_list_of_favorites` - Проверка, что метод get_list_of_favorites_books возвращает список избранного
